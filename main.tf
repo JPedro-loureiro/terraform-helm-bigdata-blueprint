@@ -35,7 +35,7 @@ locals {
 
 resource "kubectl_manifest" "argocd_projects_deployment" {
   yaml_body = templatefile(
-    "manifests/argocd/projects.yaml",
+    "${path.module}/manifests/argocd/projects.yaml",
     {
       repositories = replace(local.repositories, "\n", "\n    ")
     }
@@ -50,7 +50,7 @@ resource "kubectl_manifest" "argocd_projects_deployment" {
 resource "kubectl_manifest" "apply_remote_application" {
   for_each = var.argcd_remote_helm_applications
   yaml_body = templatefile(
-    "manifests/argocd/remote_applications_template.yaml",
+    "${path.module}/manifests/argocd/remote_applications_template.yaml",
     {
       name = each.value.application_name
       helm_repo_url = each.value.helm_repo_url
@@ -70,7 +70,7 @@ resource "kubectl_manifest" "apply_remote_application" {
 resource "kubectl_manifest" "apply_git_application" {
   for_each = var.argcd_git_applications
   yaml_body = templatefile(
-    "manifests/argocd/git_applications_template.yaml",
+    "${path.module}/manifests/argocd/git_applications_template.yaml",
     {
       name = each.value.application_name
       git_repo_url = each.value.git_repo_url
