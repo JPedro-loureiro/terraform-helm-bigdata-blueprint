@@ -1,0 +1,37 @@
+apiVersion: "argoproj.io/v1alpha1"
+kind: Application
+metadata:
+  name: ${name}
+  namespace: cicd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: big-data
+  source:
+    repoURL: ${helm_repo_url}
+    targetRevision: ${helm_chart_version}
+    chart: ${helm_chart_name}
+    helm:
+      version: v3
+      values: |
+        ${values}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ${namespace}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - "Validate=false"
+      - "CreateNamespace=true"
+      - "PrunePropagationPolicy=foreground"
+      - "PruneLast=true"
+      # - "ServerSideApply=true"
+    retry:
+      limit: 3
+      backoff:
+        duration   : "5s"
+        factor     : 2
+        maxDuration: "1m"

@@ -1,0 +1,17 @@
+apiVersion: "argoproj.io/v1alpha1"
+kind: AppProject
+metadata:
+  name: big-data
+  namespace: cicd
+spec:
+  description: "Powered by Big Data on k8s Blueprint project"
+  sourceRepos:
+    ${repositories}
+  destinations:
+    - namespace: "*"
+      server: "https://kubernetes.default.svc"
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  orphanedResources:
+    warn: true
