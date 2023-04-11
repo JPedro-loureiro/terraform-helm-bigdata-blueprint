@@ -32,32 +32,6 @@ variable "kind_worker_nodes" {
   default     = null
 }
 
-#################### Remote k8s Cluster ####################
-
-variable "k8s_host" {
-  description = "The hostname (in form of URI) of the Kubernetes API. This must be set if 'kind' is set to false"
-  type        = string
-  default     = null
-}
-
-variable "k8s_client_certificate" {
-  description = "PEM-encoded client certificate for TLS authentication. This must be set if 'kind' is set to false"
-  type        = string
-  default     = null
-}
-
-variable "k8s_client_key" {
-  description = "PEM-encoded client certificate key for TLS authentication. This must be set if 'kind' is set to false"
-  type        = string
-  default     = null
-}
-
-variable "k8s_cluster_ca_certificate" {
-  description = "PEM-encoded root certificates bundle for TLS authentication. This must be set if 'kind' is set to false"
-  type        = string
-  default     = null
-}
-
 #################### ArgoCD Applications ####################
 
 variable "argcd_remote_helm_applications" {
