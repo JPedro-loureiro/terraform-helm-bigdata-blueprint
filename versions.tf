@@ -21,25 +21,21 @@ terraform {
   }
 }
 
-provider "kind" {}
-
 provider "helm" {
   kubernetes {
-    host = kind_cluster.big-data-on-k8s-blueprint[0].endpoint
+    host = var.kind ? kind_cluster.big-data-on-k8s-blueprint[0].endpoint : var.k8s_host
 
-    client_certificate     = kind_cluster.big-data-on-k8s-blueprint[0].client_certificate
-    client_key             = kind_cluster.big-data-on-k8s-blueprint[0].client_key
-    cluster_ca_certificate = kind_cluster.big-data-on-k8s-blueprint[0].cluster_ca_certificate
+    client_certificate     = var.kind ? kind_cluster.big-data-on-k8s-blueprint[0].client_certificate : var.k8s_client_certificate
+    client_key             = var.kind ? kind_cluster.big-data-on-k8s-blueprint[0].client_key : var.k8s_client_key
+    cluster_ca_certificate = var.kind ? kind_cluster.big-data-on-k8s-blueprint[0].cluster_ca_certificate : var.k8s_cluster_ca_certificate
   }
 }
 
 provider "kubectl" {
-  host = kind_cluster.big-data-on-k8s-blueprint[0].endpoint
+    host = var.kind ? kind_cluster.big-data-on-k8s-blueprint[0].endpoint : var.k8s_host
 
-  client_certificate     = kind_cluster.big-data-on-k8s-blueprint[0].client_certificate
-  client_key             = kind_cluster.big-data-on-k8s-blueprint[0].client_key
-  cluster_ca_certificate = kind_cluster.big-data-on-k8s-blueprint[0].cluster_ca_certificate
+    client_certificate     = var.kind ? kind_cluster.big-data-on-k8s-blueprint[0].client_certificate : var.k8s_client_certificate
+    client_key             = var.kind ? kind_cluster.big-data-on-k8s-blueprint[0].client_key : var.k8s_client_key
+    cluster_ca_certificate = var.kind ? kind_cluster.big-data-on-k8s-blueprint[0].cluster_ca_certificate : var.k8s_cluster_ca_certificate
   load_config_file       = false
 }
-
-provider "local" {}
